@@ -2,6 +2,7 @@ package com.jpa.practiceJPA.delivery;
 
 import com.jpa.practiceJPA.order.Order;
 import com.jpa.practiceJPA.order.OrderStatus;
+import com.jpa.practiceJPA.valueobject.Address;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,8 @@ public class Delivery {
     @GeneratedValue
     private Long id;
 
-    private String city;
-    private String street;
-    private String zipcode;
+    @Embedded
+    private Address address;
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 

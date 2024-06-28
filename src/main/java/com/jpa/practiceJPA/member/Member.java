@@ -2,6 +2,7 @@ package com.jpa.practiceJPA.member;
 
 import com.jpa.practiceJPA.BaseEntity;
 import com.jpa.practiceJPA.order.Order;
+import com.jpa.practiceJPA.valueobject.Address;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +22,8 @@ public class Member extends BaseEntity {
 
     @Column
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+    @Embedded
+    private Address address;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();

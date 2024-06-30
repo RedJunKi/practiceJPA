@@ -2,6 +2,7 @@ package com.jpa.practiceJPA.order;
 
 import com.jpa.practiceJPA.BaseEntity;
 import com.jpa.practiceJPA.delivery.Delivery;
+import com.jpa.practiceJPA.delivery.DeliveryStatus;
 import com.jpa.practiceJPA.member.Member;
 import com.jpa.practiceJPA.joinentity.OrderItem;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -57,5 +59,30 @@ public class Order extends BaseEntity {
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        Arrays.stream(orderItems).forEach(order::addOrderItem);
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(new Date());
+        return order;
+    }
+
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new RuntimeException("이미 배송완료 된 상품은 취소가 불가능합니다.");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        orderItems.stream().forEach(OrderItem::cancel);
+    }
+
+    public int getTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItem::getTotalPrice)
+                .sum();
     }
 }

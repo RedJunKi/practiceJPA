@@ -15,6 +15,12 @@ public class Address {
     private String street;
     private String zipcode;
 
+    public Address(String city, String street, String zipcode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -28,5 +34,8 @@ public class Address {
     @Override
     public int hashCode() {
         return Objects.hash(city, street, zipcode);
+    }
+
+    public Address() {
     }
 }

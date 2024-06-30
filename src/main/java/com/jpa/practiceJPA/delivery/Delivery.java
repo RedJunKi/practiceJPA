@@ -25,5 +25,7 @@ public class Delivery {
     private Order order;
 
 
-
+    public Delivery(Address address) {
+        this.address = address;
+    }
 }
